@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <Windows.h>
+#include <unistd.h>
 #define W_SIDE 10
 
 typedef struct
@@ -8,10 +10,15 @@ typedef struct
     int hp;
 } Character;
 
-typedef struct
-{
-    int hp;
-} King;
+void cyan()
+{ // usar a cor no print
+    printf("\033[0;36m");
+}
+
+void reset()
+{ // resetar a cor
+    printf("\033[0m");
+}
 
 void printMap(char map[][W_SIDE])
 {
@@ -131,22 +138,94 @@ void removeEntity(char map[][W_SIDE], int x, int y, char dir)
     }
 }
 
-void warWithCersei()
+void warWithCersei(Character *jon_snow, Character *cersei)
 {
-    printf("Implementar guerra\n");
+    int turn = 1;
+    int atk_power;
+
+    do
+    {
+        if (turn % 2 == 1) // player1 - Jon Snow
+        {
+            atk_power = rand() % 101;
+            sleep(1.2); // ficar mais legal a apresentação
+            if (atk_power >= 50)
+            {
+                printf("Jon acertou o golpe!\n");
+                cersei->hp = cersei->hp - 10;
+            }
+            else
+            {
+                printf(" Jon errou o golpe!\n");
+            }
+        }
+        else if (turn % 2 == 0)
+        {
+            atk_power = rand() % 101;
+            sleep(1.2); // ficar mais legal a apresentação
+            if (atk_power >= 50)
+            {
+                printf("Cersei acertou o golpe!\n");
+                jon_snow->hp = jon_snow->hp - 10;
+            }
+            else
+            {
+                printf(" Cersei errou o golpe!\n");
+            }
+        }
+        printf("\t|VIDA Cersei: %d|\n", cersei->hp);
+        printf("\t|VIDA Jon Snow: %d|\n", jon_snow->hp);
+        turn++;
+    } while (cersei->hp > 0 && jon_snow->hp > 0);
 }
 
-void warWithNightKing()
+void warWithNightKing(Character *jon_snow, Character *night_king)
 {
-    printf("Implementar guerra\n");
+    int turn = 1;
+    int atk_power;
+
+    do
+    {
+        if (turn % 2 == 1) // player1 - Jon Snow
+        {
+            atk_power = rand() % 101;
+            sleep(1.2); // ficar mais legal a apresentação
+            if (atk_power >= 50)
+            {
+                printf("Jon acertou o golpe!\n");
+                night_king->hp = night_king->hp - 10;
+            }
+            else
+            {
+                printf(" Jon errou o golpe!\n");
+            }
+        }
+        else if (turn % 2 == 0) // Night King
+        {
+            atk_power = rand() % 101;
+            sleep(1.2);
+            if (atk_power >= 50)
+            {
+                printf("Night King acertou o golpe!\n");
+                jon_snow->hp = jon_snow->hp - 5;
+                night_king->hp = night_king->hp + 5;
+            }
+            else
+            {
+                printf(" Night King errou o golpe!\n");
+            }
+        }
+        printf("\t|VIDA Night King: %d|\n", night_king->hp);
+        printf("\t|VIDA Jon Snow: %d|\n", jon_snow->hp);
+        turn++;
+    } while (night_king->hp > 0 && jon_snow->hp > 0);
 }
 
 int main()
 {
     srand(time(NULL));
     char westeros[W_SIDE][W_SIDE];
-    Character jon_snow, cersei;
-    King night_king;
+    Character jon_snow, cersei, night_king;
 
     // Inicia o mapa de westeros
     for (int i = 0; i < W_SIDE; i++)
@@ -174,9 +253,9 @@ int main()
 
     char direction;
     char tried_pos;
-    int negotiating_power, score = 0, try = 0;
+    int negotiating_power, score = 0, try = 0, fail = 0;
     int met_cersei = 0;
-    while (jon_snow.hp > 0)
+    while (jon_snow.hp > 0 && night_king.hp > 0)
     {
         printMap(westeros);
         printf("Vida: %d\n", jon_snow.hp);
@@ -193,6 +272,7 @@ int main()
             printf("Voce nao pode voltar para winterfell\n");
             break;
         case 'C':
+            sleep(1);
             printf("Negociando com Cersei...\n");
             int negotiating_power = rand() % 101;
             printf("Taxa de negociacao: %d/100\n", negotiating_power);
@@ -200,25 +280,27 @@ int main()
             if (negotiating_power >= 60)
             {
                 score++;
+                printf("|Negociacao foi BOA!|\n");
                 printf("Voce agora tem %d ponto(s)\n", score);
             }
             else
             {
-                printf("Voce tem %d tentativa(s) restante(s)\n", 4 - try);
+                printf("|Negociacao FALHOU!|\n");
+                printf("  Voce tem %d tentativa(s) restante(s)\n", 4 - try);
+                fail++;
             }
-
             try++;
 
-            if (score == 3 && try <= 5)
+            if (score == 3)
             {
                 jon_snow.hp += 100;
                 printf("Cersei se uniu a voce\n");
                 westeros[4][4] = '_';
-                met_cersei = 1;
+                met_cersei = 2;
             }
-            else if (score < 3 && try >= 5)
+            else if (fail == 3)
             {
-                warWithCersei();
+                warWithCersei(&jon_snow, &cersei);
                 westeros[4][4] = '_';
                 met_cersei = 1;
             }
@@ -226,24 +308,28 @@ int main()
         case 'N':
             if (met_cersei == 0)
             {
-                printf("Voce nao pode enfrentar o rei da noite antes de se encontrar com Cersei\n");
+                printf("\n Voce nao pode enfrentar o rei da noite ainda! Va neogciar com Cersei!\n");
             }
             else
             {
-                warWithNightKing();
+                warWithNightKing(&jon_snow, &night_king);
             }
             break;
         case 'P':
             removeEntity(westeros, jon_x, jon_y, direction);
 
-            if (jon_snow.hp <= 95)
+            // Depois de testes, achamos melhor nao limitar, afinal seria MUITO dificil vencer, mesmo com Cersei.
+            /*if (jon_snow.hp <= 95)
             {
                 jon_snow.hp += 5;
             }
             else if (jon_snow.hp + 5 >= 100)
             {
                 jon_snow.hp = 100;
-            }
+            }*/
+
+            jon_snow.hp += 5; // somar à vida.
+
             break;
         case 'I':
             removeEntity(westeros, jon_x, jon_y, direction);
@@ -252,9 +338,22 @@ int main()
         }
     }
 
-    if (jon_snow.hp == 0)
+    if (jon_snow.hp <= 0)
     {
-        printf("Character Snow morreu. Tente novamente.\n");
+        printf("\nJon Snow morreu. O Rei da noite marchou sobre Westeros.\n");
+        cyan();
+        printf("\tUm longo Inverno se aproxima...\n");
+        reset();
+    }
+    else if (night_king.hp <= 0 && met_cersei == 2)
+    {
+        printf("\nA alianca de Westeros prevaleceu. O Rei da noite foi derrotado.\n");
+        printf("\tO frio comeca a diminuir...\n");
+    }
+    else if (night_king.hp <= 0 && met_cersei == 1)
+    {
+        printf("\nJon Snow Venceu. Sem apoio de Cersei, o caminho foi mais arduo, mas enfim o Rei da noite foi derrotado!\n");
+        printf("\tO Norte, enfim, comemora e respira um ar, ainda frio, mas aliviado...\n");
     }
 
     return 0;
