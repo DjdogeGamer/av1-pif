@@ -309,7 +309,7 @@ int main()
         case 'N':
             if (met_cersei == 0)
             {
-                printf("\n Voce nao pode enfrentar o rei da noite ainda! Va neogciar com Cersei!\n");
+                printf("\n Voce nao pode enfrentar o rei da noite ainda! Va negociar com Cersei!\n");
             }
             else
             {
