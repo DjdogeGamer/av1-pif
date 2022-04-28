@@ -58,7 +58,7 @@ int isEmpty(int x, int y, char map[][W_SIDE])
 
 /*
 Funcao que checa se o movimento e possivel e altera os valores caso sim
-Essa funcao retorna a posicao que o personagem tentou acessar
+Essa funcao retorna a posicao que o personagem conseguiu / tentou acessar
 Apesar dessa funcao possuir duas funcionalidades, achamos que valia a pena
 manter dessa forma para economizar linhas de código
 */
@@ -143,12 +143,12 @@ void warWithCersei(Character *jon_snow, Character *cersei)
     int turn = 1;
     int atk_power;
 
-    do
+    while (cersei->hp > 0 && jon_snow->hp > 0)
     {
+        atk_power = rand() % 101;
+
         if (turn % 2 == 1) // player1 - Jon Snow
         {
-            atk_power = rand() % 101;
-            sleep(1.2); // ficar mais legal a apresentação
             if (atk_power >= 50)
             {
                 printf("Jon acertou o golpe!\n");
@@ -161,8 +161,6 @@ void warWithCersei(Character *jon_snow, Character *cersei)
         }
         else if (turn % 2 == 0)
         {
-            atk_power = rand() % 101;
-            sleep(1.2); // ficar mais legal a apresentação
             if (atk_power >= 50)
             {
                 printf("Cersei acertou o golpe!\n");
@@ -176,7 +174,9 @@ void warWithCersei(Character *jon_snow, Character *cersei)
         printf("\t|VIDA Cersei: %d|\n", cersei->hp);
         printf("\t|VIDA Jon Snow: %d|\n", jon_snow->hp);
         turn++;
-    } while (cersei->hp > 0 && jon_snow->hp > 0);
+
+        sleep(1.2);
+    }
 }
 
 void warWithNightKing(Character *jon_snow, Character *night_king)
@@ -184,12 +184,12 @@ void warWithNightKing(Character *jon_snow, Character *night_king)
     int turn = 1;
     int atk_power;
 
-    do
+    while (night_king->hp > 0 && jon_snow->hp > 0)
     {
+        atk_power = rand() % 101;
+
         if (turn % 2 == 1) // player1 - Jon Snow
         {
-            atk_power = rand() % 101;
-            sleep(1.2); // ficar mais legal a apresentação
             if (atk_power >= 50)
             {
                 printf("Jon acertou o golpe!\n");
@@ -202,8 +202,6 @@ void warWithNightKing(Character *jon_snow, Character *night_king)
         }
         else if (turn % 2 == 0) // Night King
         {
-            atk_power = rand() % 101;
-            sleep(1.2);
             if (atk_power >= 50)
             {
                 printf("Night King acertou o golpe!\n");
@@ -218,7 +216,9 @@ void warWithNightKing(Character *jon_snow, Character *night_king)
         printf("\t|VIDA Night King: %d|\n", night_king->hp);
         printf("\t|VIDA Jon Snow: %d|\n", jon_snow->hp);
         turn++;
-    } while (night_king->hp > 0 && jon_snow->hp > 0);
+
+        sleep(1.2);
+    }
 }
 
 int main()
@@ -227,7 +227,7 @@ int main()
     char westeros[W_SIDE][W_SIDE];
     Character jon_snow, cersei, night_king;
 
-    // Inicia o mapa de westeros
+    // Inicia o mapa de westeros vazio
     for (int i = 0; i < W_SIDE; i++)
     {
         for (int j = 0; j < W_SIDE; j++)
@@ -240,7 +240,7 @@ int main()
     westeros[0][0] = 'W';
     westeros[4][4] = 'C';
     westeros[9][9] = 'N';
-    westeros[0][1] = 'J'; // ?
+    westeros[0][1] = 'J';
     int jon_x = 0, jon_y = 1;
     jon_snow.hp = 100;
     cersei.hp = 100;
@@ -272,8 +272,9 @@ int main()
             printf("Voce nao pode voltar para winterfell\n");
             break;
         case 'C':
-            sleep(1);
             printf("Negociando com Cersei...\n");
+            sleep(1);
+
             int negotiating_power = rand() % 101;
             printf("Taxa de negociacao: %d/100\n", negotiating_power);
 
@@ -285,9 +286,9 @@ int main()
             }
             else
             {
+                fail++;
                 printf("|Negociacao FALHOU!|\n");
                 printf("  Voce tem %d tentativa(s) restante(s)\n", 4 - try);
-                fail++;
             }
             try++;
 
@@ -338,6 +339,7 @@ int main()
         }
     }
 
+    // Mensagem de fim de jogo
     if (jon_snow.hp <= 0)
     {
         printf("\nJon Snow morreu. O Rei da noite marchou sobre Westeros.\n");
