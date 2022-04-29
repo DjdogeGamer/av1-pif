@@ -138,7 +138,7 @@ void removeEntity(char map[][W_SIDE], int x, int y, char dir)
     }
 }
 
-void warWithCersei(Character *jon_snow, Character *cersei)
+void duelCersei(Character *jon_snow, Character *cersei)
 {
     int turn = 1;
     int atk_power;
@@ -179,7 +179,7 @@ void warWithCersei(Character *jon_snow, Character *cersei)
     }
 }
 
-void warWithNightKing(Character *jon_snow, Character *night_king)
+void duelNightKing(Character *jon_snow, Character *night_king)
 {
     int turn = 1;
     int atk_power;
@@ -301,7 +301,7 @@ int main()
             }
             else if (fail == 3)
             {
-                warWithCersei(&jon_snow, &cersei);
+                duelCersei(&jon_snow, &cersei);
                 westeros[4][4] = '_';
                 met_cersei = 1;
             }
@@ -313,24 +313,25 @@ int main()
             }
             else
             {
-                warWithNightKing(&jon_snow, &night_king);
+                printf("\nGuerra contra o Night King comeca...\n");
+                duelNightKing(&jon_snow, &night_king);
             }
             break;
         case 'P':
             removeEntity(westeros, jon_x, jon_y, direction);
 
-            // Depois de testes, achamos melhor nao limitar, afinal seria MUITO dificil vencer, mesmo com Cersei.
-            /*if (jon_snow.hp <= 95)
+            if (jon_snow.hp <= 95 || (jon_snow.hp <= 195 && jon_snow.hp > 100)) // Implementei esta condicional para adicionar tbm quando for maior que 100 e menor que 195 pq, senao, fica 200
             {
                 jon_snow.hp += 5;
             }
-            else if (jon_snow.hp + 5 >= 100)
+            else if (jon_snow.hp <= 100 && jon_snow.hp + 5 >= 100)
             {
                 jon_snow.hp = 100;
-            }*/
-
-            jon_snow.hp += 5; // somar à vida.
-
+            }
+            else if (jon_snow.hp + 5 >= 200)
+            {
+                jon_snow.hp = 200;
+            }
             break;
         case 'I':
             removeEntity(westeros, jon_x, jon_y, direction);
