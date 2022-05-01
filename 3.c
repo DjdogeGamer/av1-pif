@@ -151,7 +151,7 @@ int createPortal(Character *eleven)
     }
 }
 
-void insertDogs(int eleven_x, int eleven_y, int tam, char map[][tam], char entity, int qt)
+void insertRadius(int ref_x, int ref_y, int range, int tam, char map[][tam], char entity, int qt)
 {
     int x = -1, y = -1;
 
@@ -159,12 +159,12 @@ void insertDogs(int eleven_x, int eleven_y, int tam, char map[][tam], char entit
     {
         do
         {
-            x = rand() % 4 + eleven_x;
+            x = rand() % range + ref_x;
         } while (x < 0 || x > 9);
 
         do
         {
-            y = rand() % 4 + eleven_y;
+            y = rand() % range + ref_y;
         } while (y < 0 || y > 9);
 
         if (map[x][y] == '_')
@@ -307,7 +307,7 @@ int main()
         if (dog_generate == 0 && (will_x - eleven_x < 3 && will_y - eleven_y < 3))
         {
             printf("\n CUIDADO!! Demodogs APARECERAM!! \n");
-            insertDogs(eleven_x, eleven_y, upsideTam, upside, 'D', 2);
+            insertRadius(eleven_x, eleven_y, 4, upsideTam, upside, 'D', 2);
             dog_generate = 1;
         }
 
