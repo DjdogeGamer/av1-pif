@@ -283,6 +283,7 @@ int main()
     // movimentacao
     int met_will = 0;
     int will_saved = 0;
+    int dog_generate = 0;
     while (met_portal == 1 && will_saved == 0) // while (met_portal==1 && condicaoSaida)
     {
         printMap(upsideTam, upside);
@@ -301,6 +302,13 @@ int main()
             int pos_direcao = rand() % 4;
             handleDirection(&will_x, &will_y, direcao[pos_direcao], upsideTam, upside);
             upside[will_x][will_y] = 'W';
+        }
+
+        if (dog_generate == 0 && (will_x - eleven_x < 3 && will_y - eleven_y < 3))
+        {
+            printf("\n CUIDADO!! Demodogs APARECERAM!! \n");
+            insertDogs(eleven_x, eleven_y, upsideTam, upside, 'D', 2);
+            dog_generate = 1;
         }
 
         switch (tried_pos)
@@ -334,12 +342,9 @@ int main()
         case 'W':
             removeEntity(upsideTam, upside, eleven_x, eleven_y, direction);
             met_will = 1;
-            insertDogs(eleven_x, eleven_y, upsideTam, upside, 'D', 2); // Depois consertar isso, tem que ser de acordo com o range e não ao pega-lo
             printf("\nEncontramos Will!!\n");
             break;
         }
     }
     return 0;
 }
-
-// aparecimento dos demodogs (2 casas de will e 11)
