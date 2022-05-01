@@ -106,15 +106,11 @@ int inserir(Produto *produtos, int tamanho, int posicao, Produto novo)
         }
     }
 
-    printf("Informe a quantidade de vendas do produto %d: ", posicao + 1);
-    scanf("%d", &novo.vendas);
-    getchar();
-    printf("Informe a quantidade de compras do produto %d: ", posicao + 1);
-    scanf("%d", &novo.compras);
-    getchar();
     printf("Informe o preco do produto %d: ", posicao + 1);
     scanf("%f", &novo.preco);
     getchar();
+    novo.vendas = 0;
+    novo.compras = 0;
     novo.status = 1;
     novo.qtd = 0;
 
