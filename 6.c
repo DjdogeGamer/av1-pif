@@ -263,7 +263,7 @@ int main()
     while (option != 0)
     {
         printf("\n\t\t== SISTEMA DE CADASTRO DE PRODUTOS DA PADARIA07 ==\n");
-        printf("     MENU: \n\t1 - Inserir Produto\n\t2 - Remover Produto\n\t3 - Buscar Produto\n\t4 - Comprar Produto\n\t5 - Vender Produto\n\t0 - Relatorio sobre os Produtos\nO que deseja fazer?");
+        printf("     MENU: \n\t1 - Inserir Produto\n\t2 - Remover Produto\n\t3 - Buscar Produto\n\t4 - Comprar Produto\n\t5 - Vender Produto\n\t0 - Relatorio sobre os Produtos\nO que deseja fazer?\n>> ");
         scanf("%d", &option);
         getchar();
 
