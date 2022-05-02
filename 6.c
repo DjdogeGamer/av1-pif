@@ -192,25 +192,37 @@ int vender(Produto *produtos, int tamanho, int codigo)
     getchar();
 
     int qtd;
-    printf("Informe a quantidade do produto a ser vendida: ");
-    scanf("%d", &qtd);
-    getchar();
+    do
+    {
+        printf("Informe a quantidade do produto a ser vendida: ");
+        scanf("%d", &qtd);
+        getchar();
+        if (qtd <= 0)
+        {
+            printf("\nInforme uma quantidade valida\n");
+        }
+    } while (qtd <= 0);
 
     // Procura no vetor se ha algum codigo igual
     for (int i = 0; i < tamanho; i++)
     {
         if (produtos[i].codigo_produto == codigo)
         {
-            if (produtos[i].qtd > 0)
+            if (produtos[i].qtd >= qtd)
             {
                 produtos[i].qtd = produtos[i].qtd - qtd;
                 produtos[i].vendas = produtos[i].vendas + qtd;
                 printf("\t|Produto vendido com sucesso!|\n");
                 return 1;
             }
-            else
+            else if (produtos[i].qtd == 0)
             {
                 printf("\t|Produto indisponivel!|\n");
+                return 0;
+            }
+            else
+            {
+                printf("\t|Ha apenas %d produtos %s no estoque, e voce tentou vender %d|", produtos[i].qtd, produtos[i].nome, qtd);
                 return 0;
             }
         }
