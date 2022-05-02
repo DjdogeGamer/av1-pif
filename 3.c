@@ -212,6 +212,8 @@ int main()
     int rage_power, score = 0, try = 0, fail = 0;
     int met_portal = 0;
 
+    printf("\n\t == STRANGER THINGS: THE GAME ==\n");
+    printf(" ... Will foi levado para o Mundo Invertido! Eleven precisa criar um portal e salvar ele...\n");
     printMap(salaTam, sala);
     printf("Vida: %d\n", eleven.hp);
 
@@ -243,7 +245,8 @@ int main()
         switch (tried_pos)
         {
         case 'O':
-            printf("Voce entrou no Mundo Invertido!!\n");
+            printf("|Voce entrou no Mundo Invertido!!|\n");
+            printf(" ...Cuidado! Os Demodogs estao escondidos!!\n");
             met_portal = 1;
             break;
         }
@@ -278,7 +281,7 @@ int main()
             }
         }
     }
-    upside[0][0] = 'S';
+    upside[0][0] = 'O'; // Portal do Upside World
 
     // Populando o mapa com as entidades
     insertMap(upsideTam, upside, 'A', 10);
@@ -313,7 +316,7 @@ int main()
 
         if (dog_generate == 0 && (will_x - eleven_x < 3 && will_y - eleven_y < 3))
         {
-            printf("\n CUIDADO!! Demodogs APARECERAM!! \n");
+            printf("\n CUIDADO!! Mais Demodogs APARECERAM!! \n");
             insertRadius(eleven_x, eleven_y, 4, upsideTam, upside, 'D', 2);
             dog_generate = 1;
         }
@@ -335,14 +338,15 @@ int main()
             removeEntity(upsideTam, upside, eleven_x, eleven_y, direction);
             eleven.hp -= 10;
             break;
-        case 'S':
+        case 'O':
             if (met_will == 0)
             {
                 printf("\n Voce nao pode sair sem encontrar o WILL!\n");
             }
             else
             {
-                printf("\n==SALVAMOS WILL!!==\n");
+                printf("\n== SALVAMOS WILL!! ==\n");
+                printf(" Estamos de volta a Hawkins!\n");
                 will_saved = 1;
             }
             break;
@@ -350,6 +354,7 @@ int main()
             removeEntity(upsideTam, upside, eleven_x, eleven_y, direction);
             met_will = 1;
             printf("\nEncontramos Will!!\n");
+            printf("\n ...Precisamos voltar ao Portal!\n");
             break;
         }
     }
