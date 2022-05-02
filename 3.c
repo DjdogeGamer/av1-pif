@@ -15,7 +15,14 @@ void printMap(int tam, char map[][tam])
     {
         for (int j = 0; j < tam; j++)
         {
-            printf("%c ", map[i][j]);
+            if (map[i][j] != 'D')
+            {
+                printf("%c ", map[i][j]);
+            }
+            else
+            {
+                printf("_ ");
+            }
         }
         printf("\n");
     }
