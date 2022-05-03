@@ -7,9 +7,11 @@ Contributors
 ----------------------------
 
 Class A:
-  - Vitor Carvalho
+  - Davi Aleixo
   - Diogo Costa
-  - 
+  - Felipe Menelau
+  - Vitor Carvalho
+  
 Class B:
+  - Leonardo Kaiser
   - Matheus Barros
-  - 
