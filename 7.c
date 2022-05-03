@@ -171,7 +171,7 @@ void printarCompras(char filme[], char categoria[], int tam, Compra compras[tam]
 int main(int argc, char const *argv[])
 {
     Lugar lugar;
-    int tam = 2;
+    int tam =  2;
     char vetor[tam][tam];
     int vetor_int[tam][tam];
     int tamCompras = (tam * 2);
@@ -187,9 +187,10 @@ int main(int argc, char const *argv[])
     char filme[30];
     char categoria[20];
 
-    printf("A sessao prime sera aberta!!\ndigite o nome do filme: ");
+    printf("\n\t== CINEMA CESAR ==\n");
+    printf("\n|A sessao prime sera aberta!!| \n   digite o nome do filme: ");
     fgets(filme, 30, stdin);
-    printf("Digite a categoria do filme: ");
+    printf("   Digite a categoria do filme: ");
     fgets(categoria, 20, stdin);
 
     do
@@ -203,11 +204,11 @@ int main(int argc, char const *argv[])
         lugar = escolherLugar(tam, vetor, lugar);
 
         setbuf(stdin, 0);
-        printf("Digite seu cpf: ");
+        printf(" Digite seu cpf: ");
         fgets(compra.id, 20, stdin);
 
         setbuf(stdin, 0);
-        printf("Meia(1) ou Inteira(2): ");
+        printf(" Meia(1) ou Inteira(2): ");
         scanf("%d", &compra.entrada);
 
         if (compra.entrada == 1)
