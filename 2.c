@@ -343,7 +343,7 @@ int main()
             temp++;
             break;
         case 'b':
-            p->pos = 1;
+            p->pos = 0;
             // printf("= %d =\n", p->pos); saber a posicao
             break;
         case 'E':
