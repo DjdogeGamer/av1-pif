@@ -118,37 +118,37 @@ void printMatrix(char matrix[7][10])
 
             case 'Y':
                 yellow();
-                printf("|_| ", matrix[i][j]);
+                printf("|_| ");
                 reset();
                 break;
 
             case 'G':
                 green();
-                printf("|_| ", matrix[i][j]);
+                printf("|_| ");
                 reset();
                 break;
 
             case 'B':
                 blue();
-                printf("|_| ", matrix[i][j]);
+                printf("|_| ");
                 reset();
                 break;
 
             case 'b':
                 black();
-                printf("|_| ", matrix[i][j]);
+                printf("|_| ");
                 reset();
                 break;
 
             case 'S':
                 black();
-                printf("|_| ", matrix[i][j]);
+                printf("|_| ");
                 reset();
                 break;
 
             case 'E':
                 black();
-                printf("|_| ", matrix[i][j]);
+                printf("|_| ");
                 reset();
                 break;
 
